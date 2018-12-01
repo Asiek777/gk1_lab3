@@ -12,6 +12,10 @@ namespace gk1_lab3
 {
     public partial class MainWindow : Form
     {
+        Curve blackCurve = new Curve(Color.Black);
+        Curve.Point point;
+        const int pointSize = 5;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -19,11 +23,20 @@ namespace gk1_lab3
 
         private void curvePictureBox_Paint(object sender, PaintEventArgs e)
         {
-            
-            e.Graphics.DrawBezier(Pens.Black, 100, 100,
-                200, 300,
-                100, 400,
-                400, 400);
+            drawCurve(e, blackCurve);
+            drawPoints(e, blackCurve);
+        }
+
+        private void drawCurve(PaintEventArgs e, Curve curve)
+        {
+            e.Graphics.DrawBezier(new Pen(curve.Color), curve.P1, curve.P2,
+                            curve.P3, curve.P4);
+        }
+        private void drawPoints(PaintEventArgs e, Curve curve)
+        {
+            foreach (Curve.Point p in curve.GetPoints())
+                e.Graphics.DrawEllipse(new Pen(curve.Color),
+                    p.X - pointSize, p.Y - pointSize, 2 * pointSize, 2 * pointSize);
         }
     }
 }
