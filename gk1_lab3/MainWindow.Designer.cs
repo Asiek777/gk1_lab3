@@ -97,6 +97,7 @@
             this.showCurvesCheckBox.TabIndex = 15;
             this.showCurvesCheckBox.Text = "Show all curves";
             this.showCurvesCheckBox.UseVisualStyleBackColor = true;
+            this.showCurvesCheckBox.CheckedChanged += new System.EventHandler(this.showCurvesCheckBox_CheckedChanged);
             // 
             // blackRadioBut
             // 
@@ -109,6 +110,7 @@
             this.blackRadioBut.TabStop = true;
             this.blackRadioBut.Text = "(K)Black";
             this.blackRadioBut.UseVisualStyleBackColor = true;
+            this.blackRadioBut.CheckedChanged += new System.EventHandler(this.radioButtons_CheckedChanged);
             // 
             // yellowRadioBut
             // 
@@ -119,6 +121,7 @@
             this.yellowRadioBut.TabIndex = 13;
             this.yellowRadioBut.Text = "Yellow";
             this.yellowRadioBut.UseVisualStyleBackColor = true;
+            this.yellowRadioBut.CheckedChanged += new System.EventHandler(this.radioButtons_CheckedChanged);
             // 
             // magentaRadioBut
             // 
@@ -129,6 +132,7 @@
             this.magentaRadioBut.TabIndex = 12;
             this.magentaRadioBut.Text = "Magenta";
             this.magentaRadioBut.UseVisualStyleBackColor = true;
+            this.magentaRadioBut.CheckedChanged += new System.EventHandler(this.radioButtons_CheckedChanged);
             // 
             // cyanRadioBut
             // 
@@ -139,6 +143,7 @@
             this.cyanRadioBut.TabIndex = 11;
             this.cyanRadioBut.Text = "Cyan";
             this.cyanRadioBut.UseVisualStyleBackColor = true;
+            this.cyanRadioBut.CheckedChanged += new System.EventHandler(this.radioButtons_CheckedChanged);
             // 
             // savePictureBut
             // 
@@ -220,6 +225,7 @@
             this.changePictureBut.TabIndex = 2;
             this.changePictureBut.Text = "Change Picture";
             this.changePictureBut.UseVisualStyleBackColor = true;
+            this.changePictureBut.Click += new System.EventHandler(this.changePictureBut_Click);
             // 
             // showPicturesBut
             // 
@@ -239,6 +245,8 @@
             this.curvePictureBox.TabIndex = 0;
             this.curvePictureBox.TabStop = false;
             this.curvePictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.curvePictureBox_Paint);
+            this.curvePictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.curvePictureBox_MouseDown);
+            this.curvePictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.curvePictureBox_MouseUp);
             // 
             // imagePictureBox
             // 
@@ -246,6 +254,7 @@
             this.imagePictureBox.Location = new System.Drawing.Point(15, 79);
             this.imagePictureBox.Name = "imagePictureBox";
             this.imagePictureBox.Size = new System.Drawing.Size(506, 448);
+            this.imagePictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.imagePictureBox.TabIndex = 0;
             this.imagePictureBox.TabStop = false;
             // 
