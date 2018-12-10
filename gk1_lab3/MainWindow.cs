@@ -96,6 +96,38 @@ namespace gk1_lab3
             imagePictureBox.Refresh();
         }
 
+        private void showPicturesBut_Click(object sender, EventArgs e)
+        {
+            Bitmap baseImage = new Bitmap(imagePictureBox.Image);
+            Bitmap blackImage = new Bitmap(baseImage.Width, baseImage.Height);
+            Bitmap cyanImage = new Bitmap(baseImage.Width, baseImage.Height);
+            Bitmap magentaImage = new Bitmap(baseImage.Width, baseImage.Height);
+            Bitmap yellowImage = new Bitmap(baseImage.Width, baseImage.Height);
+            byte[] Fc = cyanCurve.calcValues();
+            byte[] Fm = magentaCurve.calcValues();
+            byte[] Fy = yellowCurve.calcValues();
+            byte[] Fk = blackCurve.calcValues();
+            byte C, M, Y, K;
+
+            for (int i = 0; i < baseImage.Width; i++)
+                for (int j = 0; j < baseImage.Height; j++)
+                {
+                    Color c = baseImage.GetPixel(i, j);
+                    C = (byte)(byte.MaxValue - c.R);
+                    M = (byte)(byte.MaxValue - c.G);
+                    Y = (byte)(byte.MaxValue - c.B);
+                    K = Math.Min(Math.Min(C, M), Y);
+
+                    cyanImage.SetPixel(i, j, Color.FromArgb(255 - C + K - Fc[K], 255, 255));
+                    magentaImage.SetPixel(i, j, Color.FromArgb(255, 255 - M + K - Fm[K], 255));
+                    yellowImage.SetPixel(i, j, Color.FromArgb(255, 255, 255 - Y + K - Fy[K]));
+                    blackImage.SetPixel(i, j, Color.FromArgb(255 - Fk[K], 255 - Fk[K], 255 - Fk[K]));
+                }
+            pictureWindow pictures = new pictureWindow(cyanImage, magentaImage, 
+                yellowImage, blackImage);
+            pictures.ShowDialog();
+        }        
+  
         private void radioButtons_CheckedChanged(object sender, EventArgs e)
         {
             if (cyanRadioBut.Checked)
@@ -106,6 +138,39 @@ namespace gk1_lab3
                 chosenCurve = yellowCurve;
             else if (blackRadioBut.Checked)
                 chosenCurve = blackCurve;
+            curvePictureBox.Refresh();
+        }
+
+        
+
+        private void back0But_Click(object sender, EventArgs e)
+        {
+            cyanCurve = new Curve(Color.Cyan);
+            magentaCurve.setPoint(181, 322, 1);
+            magentaCurve.setPoint(308, 197, 2);
+            magentaCurve.setPoint(436, 10, 3);
+            yellowCurve.setPoint(197, 324, 1);
+            yellowCurve.setPoint(345, 179, 2);
+            yellowCurve.setPoint(436, 10, 3);
+            blackCurve.setPoint(10, 394, 1);
+            blackCurve.setPoint(10, 394, 2);
+            blackCurve.setPoint(10, 394, 3);
+            curvePictureBox.Refresh();
+
+        }
+
+        private void back100But_Click(object sender, EventArgs e)
+        {
+            blackCurve = new Curve(Color.Black);
+            cyanCurve.setPoint(10, 394, 1);
+            cyanCurve.setPoint(10, 394, 2);
+            cyanCurve.setPoint(10, 394, 3);
+            magentaCurve.setPoint(10, 394, 1);
+            magentaCurve.setPoint(10, 394, 2);
+            magentaCurve.setPoint(10, 394, 3);
+            yellowCurve.setPoint(10, 394, 1);
+            yellowCurve.setPoint(10, 394, 2);
+            yellowCurve.setPoint(10, 394, 3);
             curvePictureBox.Refresh();
         }
     }

@@ -189,6 +189,7 @@
             this.back100But.TabIndex = 6;
             this.back100But.Text = "100% back";
             this.back100But.UseVisualStyleBackColor = true;
+            this.back100But.Click += new System.EventHandler(this.back100But_Click);
             // 
             // back0But
             // 
@@ -198,6 +199,7 @@
             this.back0But.TabIndex = 5;
             this.back0But.Text = "0% back";
             this.back0But.UseVisualStyleBackColor = true;
+            this.back0But.Click += new System.EventHandler(this.back0But_Click);
             // 
             // loadCurveBut
             // 
@@ -235,6 +237,7 @@
             this.showPicturesBut.TabIndex = 1;
             this.showPicturesBut.Text = "Show Pictures";
             this.showPicturesBut.UseVisualStyleBackColor = true;
+            this.showPicturesBut.Click += new System.EventHandler(this.showPicturesBut_Click);
             // 
             // curvePictureBox
             // 
