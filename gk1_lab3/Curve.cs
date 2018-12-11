@@ -8,6 +8,7 @@ using MathNet.Numerics;
 
 namespace gk1_lab3
 {
+    [Serializable]
     class Curve
     {
         static readonly int margin = 10;
@@ -112,6 +113,7 @@ namespace gk1_lab3
         public Point P4 { get => points[3]; }
         public Color Color { get; set; }
 
+        [Serializable]
         public class Point
         {
             internal int X, Y, Num;
@@ -130,4 +132,22 @@ namespace gk1_lab3
                 Math.Sqrt((X - x) * (X - x) + (Y - y) * (Y - y));
         }
     }
+
+    [Serializable]
+    internal class CurveAggregate
+    {
+        public Curve blackCurve;
+        public Curve cyanCurve;
+        public Curve magentaCurve;
+        public Curve yellowCurve;
+
+        public CurveAggregate(Curve blackCurve, Curve cyanCurve, Curve magentaCurve, Curve yellowCurve)
+        {
+            this.blackCurve = blackCurve;
+            this.cyanCurve = cyanCurve;
+            this.magentaCurve = magentaCurve;
+            this.yellowCurve = yellowCurve;
+        }
+    }
+
 }

@@ -153,6 +153,7 @@
             this.savePictureBut.TabIndex = 10;
             this.savePictureBut.Text = "Save Pictures";
             this.savePictureBut.UseVisualStyleBackColor = true;
+            this.savePictureBut.Click += new System.EventHandler(this.savePictureBut_Click);
             // 
             // blackWhiteBut
             // 
@@ -162,6 +163,7 @@
             this.blackWhiteBut.TabIndex = 9;
             this.blackWhiteBut.Text = "Black and White";
             this.blackWhiteBut.UseVisualStyleBackColor = true;
+            this.blackWhiteBut.Click += new System.EventHandler(this.blackWhiteBut_Click);
             // 
             // gcrBut
             // 
@@ -209,6 +211,7 @@
             this.loadCurveBut.TabIndex = 4;
             this.loadCurveBut.Text = "Load Curve";
             this.loadCurveBut.UseVisualStyleBackColor = true;
+            this.loadCurveBut.Click += new System.EventHandler(this.loadCurveBut_Click);
             // 
             // saveCurveBut
             // 
@@ -218,6 +221,7 @@
             this.saveCurveBut.TabIndex = 3;
             this.saveCurveBut.Text = "Save Curve";
             this.saveCurveBut.UseVisualStyleBackColor = true;
+            this.saveCurveBut.Click += new System.EventHandler(this.saveCurveBut_Click);
             // 
             // changePictureBut
             // 

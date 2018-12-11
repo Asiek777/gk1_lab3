@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -20,6 +23,7 @@ namespace gk1_lab3
         int movedPoint;
         const int pointSize = 5;
         int posX, posY;
+        BinaryFormatter xs = new BinaryFormatter();
 
         public MainWindow()
         {
@@ -141,7 +145,59 @@ namespace gk1_lab3
             curvePictureBox.Refresh();
         }
 
-        
+        private void savePictureBut_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog theDialog = new SaveFileDialog();
+            theDialog.Filter = "Bitmap File | *.bmp";
+            if (theDialog.ShowDialog() == DialogResult.OK)
+            {
+                Bitmap bitmap = new Bitmap(imagePictureBox.Image);
+                bitmap.Save(theDialog.FileName + ".bmp", ImageFormat.Bmp);
+            }
+        }
+
+        private void saveCurveBut_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog theDialog = new SaveFileDialog();
+            theDialog.Filter = "Curve File | *.curve";
+            if (theDialog.ShowDialog() == DialogResult.OK)
+            {
+                FileStream fs = new FileStream(theDialog.FileName, FileMode.Create);
+                CurveAggregate aggregator = new CurveAggregate(blackCurve, cyanCurve,
+                    magentaCurve, yellowCurve);
+                xs.Serialize(fs, aggregator);
+                fs.Close();
+            }
+        }
+
+        private void loadCurveBut_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog theDialog = new OpenFileDialog();
+            theDialog.Title = "Load Curve File";
+            theDialog.Filter = "Curve File | *.curve";
+            if (theDialog.ShowDialog() == DialogResult.OK)
+            {
+                FileStream fs = new FileStream(theDialog.FileName, FileMode.Open);
+                CurveAggregate aggregate = (CurveAggregate)xs.Deserialize(fs);
+                fs.Close();
+                blackCurve = aggregate.blackCurve;
+                cyanCurve = aggregate.cyanCurve;
+                magentaCurve = aggregate.magentaCurve;
+                yellowCurve = aggregate.yellowCurve;
+                radioButtons_CheckedChanged(this, new EventArgs());
+                curvePictureBox.Refresh();
+            }
+        }
+
+        private void blackWhiteBut_Click(object sender, EventArgs e)
+        {
+            Bitmap baseImage = new Bitmap(imagePictureBox.Image);
+
+            for (int i = 0; i < baseImage.Width; i++)
+                for (int j = 0; j < baseImage.Height; j++)
+                {
+                }
+        }
 
         private void back0But_Click(object sender, EventArgs e)
         {
