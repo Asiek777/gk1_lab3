@@ -99,6 +99,17 @@ namespace gk1_lab3
             }
             imagePictureBox.Refresh();
         }
+        
+        private void savePictureBut_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog theDialog = new SaveFileDialog();
+            theDialog.Filter = "Bitmap File | *.bmp";
+            if (theDialog.ShowDialog() == DialogResult.OK)
+            {
+                Bitmap bitmap = new Bitmap(imagePictureBox.Image);
+                bitmap.Save(theDialog.FileName + ".bmp", ImageFormat.Bmp);
+            }
+        }
 
         private void showPicturesBut_Click(object sender, EventArgs e)
         {
@@ -122,15 +133,25 @@ namespace gk1_lab3
                     Y = (byte)(byte.MaxValue - c.B);
                     K = Math.Min(Math.Min(C, M), Y);
 
-                    cyanImage.SetPixel(i, j, Color.FromArgb(255 - C + K - Fc[K], 255, 255));
-                    magentaImage.SetPixel(i, j, Color.FromArgb(255, 255 - M + K - Fm[K], 255));
-                    yellowImage.SetPixel(i, j, Color.FromArgb(255, 255, 255 - Y + K - Fy[K]));
+                    cyanImage.SetPixel(i, j, Color.FromArgb(correct(255 - C + K - Fc[K]), 255, 255));
+                    magentaImage.SetPixel(i, j, Color.FromArgb(255, correct(255 - M + K - Fm[K]), 255));
+                    yellowImage.SetPixel(i, j, Color.FromArgb(255, 255, correct(255 - Y + K - Fy[K])));
                     blackImage.SetPixel(i, j, Color.FromArgb(255 - Fk[K], 255 - Fk[K], 255 - Fk[K]));
                 }
             pictureWindow pictures = new pictureWindow(cyanImage, magentaImage, 
                 yellowImage, blackImage);
             pictures.ShowDialog();
-        }        
+        }
+
+        byte correct(int x)
+        {
+            if (x > 255)
+                return 255;
+            else if (x < 0)
+                return 0;
+            else
+                return (byte)x;
+        }
   
         private void radioButtons_CheckedChanged(object sender, EventArgs e)
         {
@@ -143,17 +164,6 @@ namespace gk1_lab3
             else if (blackRadioBut.Checked)
                 chosenCurve = blackCurve;
             curvePictureBox.Refresh();
-        }
-
-        private void savePictureBut_Click(object sender, EventArgs e)
-        {
-            SaveFileDialog theDialog = new SaveFileDialog();
-            theDialog.Filter = "Bitmap File | *.bmp";
-            if (theDialog.ShowDialog() == DialogResult.OK)
-            {
-                Bitmap bitmap = new Bitmap(imagePictureBox.Image);
-                bitmap.Save(theDialog.FileName + ".bmp", ImageFormat.Bmp);
-            }
         }
 
         private void saveCurveBut_Click(object sender, EventArgs e)
@@ -177,28 +187,45 @@ namespace gk1_lab3
             theDialog.Filter = "Curve File | *.curve";
             if (theDialog.ShowDialog() == DialogResult.OK)
             {
-                FileStream fs = new FileStream(theDialog.FileName, FileMode.Open);
-                CurveAggregate aggregate = (CurveAggregate)xs.Deserialize(fs);
-                fs.Close();
-                blackCurve = aggregate.blackCurve;
-                cyanCurve = aggregate.cyanCurve;
-                magentaCurve = aggregate.magentaCurve;
-                yellowCurve = aggregate.yellowCurve;
-                radioButtons_CheckedChanged(this, new EventArgs());
-                curvePictureBox.Refresh();
+                string fileName = theDialog.FileName;
+                loadCurve(fileName);
             }
+        }
+
+        private void loadCurve(string fileName)
+        {
+            FileStream fs = new FileStream(fileName, FileMode.Open);
+            CurveAggregate aggregate = (CurveAggregate)xs.Deserialize(fs);
+            fs.Close();
+            blackCurve = aggregate.blackCurve;
+            cyanCurve = aggregate.cyanCurve;
+            magentaCurve = aggregate.magentaCurve;
+            yellowCurve = aggregate.yellowCurve;
+            radioButtons_CheckedChanged(this, new EventArgs());
+            curvePictureBox.Refresh();
         }
 
         private void blackWhiteBut_Click(object sender, EventArgs e)
         {
             Bitmap baseImage = new Bitmap(imagePictureBox.Image);
-
+            Bitmap newBitmap = new Bitmap(imagePictureBox.Image);
             for (int i = 0; i < baseImage.Width; i++)
                 for (int j = 0; j < baseImage.Height; j++)
                 {
+                    Color c = baseImage.GetPixel(i, j);
+                    byte white = (byte)(0.229 * c.R + 0.587 * c.G + 0.114 * c.B);
+                    newBitmap.SetPixel(i, j, Color.FromArgb(white, white, white));
                 }
+            imagePictureBox.Image = newBitmap;
         }
 
+
+        private void ucrBut_Click(object sender, EventArgs e) => 
+            loadCurve("../../ucr.curve");
+
+        private void gcrBut_Click(object sender, EventArgs e) =>
+            loadCurve("../../gcr.curve");
+        
         private void back0But_Click(object sender, EventArgs e)
         {
             cyanCurve = new Curve(Color.Cyan);

@@ -173,6 +173,7 @@
             this.gcrBut.TabIndex = 8;
             this.gcrBut.Text = "GCR";
             this.gcrBut.UseVisualStyleBackColor = true;
+            this.gcrBut.Click += new System.EventHandler(this.gcrBut_Click);
             // 
             // ucrBut
             // 
@@ -182,6 +183,7 @@
             this.ucrBut.TabIndex = 7;
             this.ucrBut.Text = "UCR";
             this.ucrBut.UseVisualStyleBackColor = true;
+            this.ucrBut.Click += new System.EventHandler(this.ucrBut_Click);
             // 
             // back100But
             // 
